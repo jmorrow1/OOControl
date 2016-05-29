@@ -9,5 +9,6 @@ A GUI library for object-oriented Processing applications, currently in alpha.
 
 # Roadmap
 * Make controllers
+* Javadocs
 * Make demos
 * Make editor in which to design GUIs
