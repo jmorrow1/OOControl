@@ -28,6 +28,14 @@ public class Rect {
 	}
 	
 	public Rect(float a, float b, float c, float d, int rectMode) {
+		set(a, b, c, d, rectMode);
+	}
+	
+	public Rect(Rect r) {
+		this(r.cenx, r.ceny, r.width, r.height, PApplet.CENTER);
+	}
+	
+	public void set(float a, float b, float c, float d, int rectMode) {
 		if (rectMode == PApplet.CENTER) {
 			this.cenx = a;
 			this.ceny = b;
@@ -54,19 +62,11 @@ public class Rect {
 		}
 	}
 	
-	public Rect(Rect r) {
-		this(r.cenx, r.ceny, r.width, r.height, PApplet.CENTER);
-	}
-	
-	public void set(float cenx, float ceny, float width, float height) {
-		this.cenx = cenx;
-		this.ceny = ceny;
-		this.width = width;
-		this.height = height;
-	}
-	
 	public void set(Rect r) {
-		set(r.cenx, r.ceny, r.width, r.height);
+		this.cenx = r.cenx;
+		this.ceny = r.ceny;
+		this.width = r.width;
+		this.height = r.height;
 	}
 	
 	public Rect clone() {
