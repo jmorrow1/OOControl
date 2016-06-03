@@ -1,5 +1,5 @@
 # OOControl
-A GUI library for object-oriented Processing applications, currently in alpha.
+A GUI library for object-oriented <a href="https://processing.org" target="_blank">Processing</a> applications, currently in alpha.
 
 # Motivations
 * To make GUIs that cope with translation, rotation, and scaling
