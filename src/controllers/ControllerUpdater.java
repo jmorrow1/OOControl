@@ -8,6 +8,11 @@ import processing.core.PFont;
 
 //TODO Editor in which to create GUIs.
 
+/**
+ * 
+ * @author James Morrow
+ *
+ */
 public class ControllerUpdater {
 	private ArrayList<Controller> controllers = new ArrayList<Controller>();
 	private ArrayList<Float> priorities = new ArrayList<Float>();

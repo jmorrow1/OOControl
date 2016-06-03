@@ -2,6 +2,11 @@ package controllers;
 
 import processing.core.PApplet;
 
+/**
+ * 
+ * @author James Morrow
+ *
+ */
 public class KeyEvent {
 	public PApplet pa;
 	public int key, keyCode;

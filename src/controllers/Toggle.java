@@ -7,6 +7,11 @@ import geom.Rect;
 import processing.core.PApplet;
 import processing.core.PFont;
 
+/**
+ * 
+ * @author James Morrow
+ *
+ */
 public class Toggle extends Controller {
 	private PFont font;
 	private int fontSize;

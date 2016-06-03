@@ -3,6 +3,11 @@ package geom;
 import processing.core.PApplet;
 import processing.data.JSONObject;
 
+/**
+ * 
+ * @author James Morrow
+ *
+ */
 public class Rect {
 	private float cenx, ceny, width, height;
 	
@@ -51,6 +56,17 @@ public class Rect {
 	
 	public Rect(Rect r) {
 		this(r.cenx, r.ceny, r.width, r.height, PApplet.CENTER);
+	}
+	
+	public void set(float cenx, float ceny, float width, float height) {
+		this.cenx = cenx;
+		this.ceny = ceny;
+		this.width = width;
+		this.height = height;
+	}
+	
+	public void set(Rect r) {
+		set(r.cenx, r.ceny, r.width, r.height);
 	}
 	
 	public Rect clone() {

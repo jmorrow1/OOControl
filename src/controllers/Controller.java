@@ -4,7 +4,12 @@ import geom.Rect;
 import processing.core.PApplet;
 import processing.data.JSONObject;
 
-
+/**
+ * 
+ * @author James Morrow
+ *
+ * @param <T>
+ */
 public abstract class Controller<T extends Controller> {
 	public static final int MOUSE_EVENT_RECEIVER = 0, KEY_EVENT_RECEIVER = 1;
 	public final int receiverMode;

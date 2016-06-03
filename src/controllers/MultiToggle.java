@@ -6,6 +6,11 @@ import geom.Rect;
 import processing.core.PApplet;
 import processing.core.PFont;
 
+/**
+ * 
+ * @author James Morrow
+ *
+ */
 public class MultiToggle extends Controller implements ControllerListener<Toggle> {
 	private int state = 0;
 	private Toggle[] toggles;

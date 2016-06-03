@@ -11,6 +11,12 @@ import processing.core.PApplet;
 import processing.core.PFont;
 
 //TODO change size implementation to Rect.
+
+/**
+ * 
+ * @author James Morrow
+ *
+ */
 public class IntSlider extends Controller {
 	//style
     private PFont font;
