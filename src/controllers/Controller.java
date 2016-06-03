@@ -16,7 +16,7 @@ public abstract class Controller<T extends Controller> {
 	protected Rect rect;
 	private ControllerListener<T> listener;
 	private boolean frozen = false; //If true, will still be displayed as long as (shown == true) but won't be interactive
-	private boolean hidden = true; //If true, will not be displayed and will not be interactive
+	private boolean hidden = false; //If true, will not be displayed and will not be interactive
 	
 	/**************************
 	 ***** Initialization *****
@@ -197,16 +197,20 @@ public abstract class Controller<T extends Controller> {
 		return frozen;
 	}
 	
-	public boolean isInactive() {
-		return hidden || frozen;
+	public boolean isEnabled() {
+		return !hidden && !frozen;
 	}
 	
-	public void show() {
-		hidden = false;
+	public boolean isDisabled() {
+		return hidden || frozen;
 	}
 	
 	public void hide() {
 		hidden = true;
+	}
+	
+	public void show() {
+		hidden = false;
 	}
 	
 	public void freeze() {

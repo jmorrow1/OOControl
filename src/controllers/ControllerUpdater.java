@@ -28,7 +28,7 @@ public class ControllerUpdater {
     public void draw() {
     	for (int i=0; i<controllers.size(); i++) {
     		Controller c = controllers.get(i);
-    		if (c.isInactive()) {
+    		if (!c.isHidden()) {
     			c.draw(pa);
     		}
     	}
@@ -52,7 +52,7 @@ public class ControllerUpdater {
         	Controller c = controllers.get(i);
             if (c.touches(e.x, e.y)) {
                 
-            	if (c.isInactive()) {
+            	if (c.isEnabled()) {
 	            	if (activeMouseEventReceiver != c) {
 	            		if (activeMouseEventReceiver != null) {
 	            			activeMouseEventReceiver.mouseLeave(e);
