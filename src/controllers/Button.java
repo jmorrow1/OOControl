@@ -22,7 +22,11 @@ public class Button extends Controller {
 	}
 	
 	public Button(ControllerUpdater updater, float priority) {
-		this("", new Rect(0, 0, 0, 0, PApplet.CORNER), updater.getDefaultFont(), 16, updater, priority);
+		this("", new Rect(0, 0, 50, 50, PApplet.CORNER), updater.getDefaultFont(), 16, updater, priority);
+	}
+	
+	public Button(Rect rect, ControllerUpdater updater, float priority) {
+		this("", rect, updater.getDefaultFont(), 16, updater, priority);
 	}
 	
 	/*******************
@@ -42,6 +46,7 @@ public class Button extends Controller {
 		@Override
 		public void display(PApplet pa, Button b) {
 			pa.rectMode(pa.CORNER);
+			pa.textFont(b.getFont());
 			pa.textAlign(b.getTextAlignX(), b.getTextAlignY());
 			pa.textSize(b.getFontSize());
 			pa.fill(b.isHovered() ? b.getHoveredColor() : b.getDefaultColor());
@@ -84,6 +89,10 @@ public class Button extends Controller {
 	/*******************************
 	 ***** Getters and Setters *****
 	 *******************************/
+	
+	public PFont getFont() {
+		return font;
+	}
 
 	public ControllerDisplay<Button> getDisplay() {
 		return buttonDisplay;

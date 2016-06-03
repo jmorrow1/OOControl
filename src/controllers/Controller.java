@@ -4,6 +4,7 @@ import geom.Rect;
 import processing.core.PApplet;
 import processing.data.JSONObject;
 
+
 public abstract class Controller<T extends Controller> {
 	public static final int MOUSE_EVENT_RECEIVER = 0, KEY_EVENT_RECEIVER = 1;
 	public final int receiverMode;
@@ -14,7 +15,8 @@ public abstract class Controller<T extends Controller> {
 	protected ControllerUpdater updater;	
 	protected Rect rect;
 	private ControllerListener<T> listener;
-	private boolean enabled = true;
+	private boolean frozen = false; //If true, will still be displayed as long as (shown == true) but won't be interactive
+	private boolean hidden = true; //If true, will not be displayed and will not be interactive
 	
 	/**************************
 	 ***** Initialization *****
@@ -187,16 +189,32 @@ public abstract class Controller<T extends Controller> {
 		return hovered ? hoveredColor : defaultColor;
 	}
 	
-	public boolean isEnabled() {
-		return enabled;
+	public boolean isHidden() {
+		return hidden;
 	}
 	
-	public void enable() {
-		enabled = true;
+	public boolean isFrozen() {
+		return frozen;
 	}
 	
-	public void disable() {
-		enabled = false;
+	public boolean isInactive() {
+		return hidden || frozen;
+	}
+	
+	public void show() {
+		hidden = false;
+	}
+	
+	public void hide() {
+		hidden = true;
+	}
+	
+	public void freeze() {
+		frozen = true;
+	}
+	
+	public void unfreeze() {
+		frozen = false;
 	}
     
     /*****************
