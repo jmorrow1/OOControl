@@ -7,6 +7,7 @@ import processing.core.PApplet;
 import processing.core.PFont;
 
 //TODO Editor in which to create GUIs.
+//TODO Multiple active controllers? So mouseLeave isn't called when entering a nested controller?
 
 /**
  * 
@@ -138,6 +139,30 @@ public class ControllerUpdater {
     	}
     }
     
+    public void hideAll() {
+    	for (Controller c : controllers) {
+    		c.hide();
+    	}
+    }
+    
+    public void freezeAll() {
+    	for (Controller c : controllers) {
+    		c.freeze();
+    	}
+    }
+    
+    public void showAll() {
+    	for (Controller c : controllers) {
+    		c.show();
+    	}
+    }
+    
+    public void unfreezeAll() {
+    	for (Controller c : controllers) {
+    		c.unfreeze();
+    	}
+    }
+    
     public void addController(Controller e, float priorityValue) {
     	for (Controller d : controllers) {
     		if (d == e) return;
@@ -161,6 +186,12 @@ public class ControllerUpdater {
     		controllers.remove(i);
     		priorities.remove(i);
     	}
+    	if (e == this.activeMouseEventReceiver) {
+    		this.activeMouseEventReceiver = null;
+    	}
+    	if (e == this.activeKeyEventReceiver) {
+    		this.activeKeyEventReceiver = null;
+    	}
     }
     
     public float getControllerPriority(Controller c) {
@@ -173,12 +204,25 @@ public class ControllerUpdater {
     	}
     }
     
+    public void setControllerPriority(Controller c, float priority) {
+    	int i = controllers.indexOf(c);
+    	if (i != -1) {
+    		controllers.remove(i);
+    		priorities.remove(i);
+    		addController(c, priority);
+    	}
+    }
+    
     public void clearControllers() {
     	controllers.clear();
     }
     
     public Controller getController(int i) {
     	return controllers.get(i);
+    }
+    
+    public boolean containsController(Controller c) {
+    	return controllers.contains(c);
     }
     
     public int size() {
