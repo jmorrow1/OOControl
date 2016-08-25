@@ -1,6 +1,7 @@
 package geom;
 
 import processing.core.PApplet;
+import processing.core.PGraphics;
 import processing.data.JSONObject;
 
 /**
@@ -73,9 +74,9 @@ public class Rect {
 		return new Rect(this);
 	}
 	
-	public void display(PApplet pa) {
-		pa.rectMode(pa.CENTER);
-		pa.rect(cenx, ceny, width, height);
+	public void display(PGraphics pg) {
+		pg.rectMode(pg.CENTER);
+		pg.rect(cenx, ceny, width, height);
 	}
 
 	public void translate(float dx, float dy) {

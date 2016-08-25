@@ -9,6 +9,7 @@ import controllers.ControllerUpdater;
 import controllers.MouseEvent;
 import processing.core.PApplet;
 import processing.core.PFont;
+import processing.core.PGraphics;
 
 //TODO change size implementation to Rect.
 
@@ -47,7 +48,7 @@ public class IntSlider extends Controller {
         defaultColor = 0;
     }
     
-    public void draw(PApplet pa) {
+    public void draw(PGraphics pg) {
         pa.fill(getColorInCurrentContext());
         pa.textFont(font);
         pa.textAlign(pa.CENTER, pa.CENTER);

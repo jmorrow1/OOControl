@@ -1,6 +1,6 @@
 package controllers;
 
-import processing.core.PApplet;
+import processing.core.PGraphics;
 
 /**
  * 
@@ -9,5 +9,5 @@ import processing.core.PApplet;
  * @param <T>
  */
 public interface ControllerDisplay<T extends Controller> {
-	public void display(PApplet pa, T controller);
+	public void display(PGraphics pg, T controller);
 }

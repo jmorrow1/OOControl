@@ -22,49 +22,62 @@ public class ControllerUpdater {
     private Controller activeMouseEventReceiver;
     private Controller activeKeyEventReceiver;
     
-    private boolean adjustControllersMode;
+    private boolean editMode;
     
     protected PApplet pa;
+    
+    private MouseEvent e;
+    
+    private int editColor = 0xFFF2CD51;
     
     public ControllerUpdater(PApplet pa) {
     	defaultFont = new PFont(PFont.findFont("font"), true);
     	this.pa = pa;
+    	e = new MouseEvent(pa);
     }
     
     public void draw() {
     	for (int i=0; i<controllers.size(); i++) {
     		Controller c = controllers.get(i);
     		if (!c.isHidden()) {
-    			c.draw(pa);
+    			c.draw(null);
+    		}
+    	}
+    	if (editMode) {
+    		if (activeMouseEventReceiver != null) {
+    			Controller c = activeMouseEventReceiver;
+    			pa.noStroke();
+    			pa.fill(0x77ffffff);
+    			c.rect.display(pa.getGraphics());
     		}
     	}
     }
+    
+    public void mouseMoved() {
+    	mouseMoved(e.set(pa.mouseX, pa.mouseY, pa.pmouseX, pa.pmouseY));
+    }
 
     public void mouseMoved(MouseEvent e) {
-    	if (adjustControllersMode) {
-    		mouseMovedAdjustMode(e);
-    		return;
-    	}
-    	
         if (activeMouseEventReceiver != null) {
             if (!activeMouseEventReceiver.touches(e.x, e.y)) {   	
                 activeMouseEventReceiver.mouseLeave(e);
                 activeMouseEventReceiver = null;
             }
-        }       
+        }
 
     	int i = controllers.size() - 1;
         while (i >= 0) {
         	Controller c = controllers.get(i);
             if (c.touches(e.x, e.y)) {
-                
             	if (c.isEnabled()) {
 	            	if (activeMouseEventReceiver != c) {
 	            		if (activeMouseEventReceiver != null) {
 	            			activeMouseEventReceiver.mouseLeave(e);
 	            		}
 	            		activeMouseEventReceiver = c;
-	            		c.mouseEnter(e);
+	            		if (!editMode) {
+	            			c.mouseEnter(e);
+	            		}
 	            	}
 	                
 	                break;
@@ -74,9 +87,13 @@ public class ControllerUpdater {
         }  
     }
     
+    public void mousePressed() {
+    	mousePressed(e.set(pa.mouseX, pa.mouseY, pa.pmouseX, pa.pmouseY));
+    }
+    
     public void mousePressed(MouseEvent e) {
-    	if (adjustControllersMode) {
-    		mousePressedAdjustMode(e);
+    	if (editMode) {
+    		mousePressedEditMode(e);
     		return;
     	}
     	
@@ -85,9 +102,13 @@ public class ControllerUpdater {
     	}
     }
     
+    public void mouseReleased() {
+    	mouseReleased(e.set(pa.mouseX, pa.mouseY, pa.pmouseX, pa.pmouseY));
+    }
+    
     public void mouseReleased(MouseEvent e) {
-    	if (adjustControllersMode) {
-    		mouseReleasedAdjustMode(e);
+    	if (editMode) {
+    		mouseReleasedEditMode(e);
     		return;
     	}
     	
@@ -100,9 +121,13 @@ public class ControllerUpdater {
     	}
     }
     
+    public void mouseDragged() {
+    	mouseDragged(e.set(pa.mouseX, pa.mouseY, pa.pmouseX, pa.pmouseY));
+    }
+    
     public void mouseDragged(MouseEvent e) {
-    	if (adjustControllersMode) {
-    		mouseDraggedAdjustMode(e);
+    	if (editMode) {
+    		mouseDraggedEditMode(e);
     		return;
     	}
     	
@@ -115,7 +140,7 @@ public class ControllerUpdater {
     	
     }
     
-    public void mouseMovedAdjustMode(MouseEvent e) {
+    public void mouseMovedEditMode(MouseEvent e) {
     	for (Controller c : controllers) {
     		if (c.touches(e.x, e.y)) {
     			
@@ -123,15 +148,19 @@ public class ControllerUpdater {
     	}
     }
     
-    public void mousePressedAdjustMode(MouseEvent e) {
+    public void mousePressedEditMode(MouseEvent e) {
+    	for (Controller c : controllers) {
+    		if (c.touches(e.x, e.y)) {
+    			
+    		}
+    	}
+    }
+    
+    public void mouseReleasedEditMode(MouseEvent e) {
     	
     }
     
-    public void mouseReleasedAdjustMode(MouseEvent e) {
-    	
-    }
-    
-    public void mouseDraggedAdjustMode(MouseEvent e) {
+    public void mouseDraggedEditMode(MouseEvent e) {
     	for (Controller c : controllers) {
     		if (c.touches(e.x, e.y)) {
     			
@@ -233,13 +262,13 @@ public class ControllerUpdater {
     	return defaultFont;
     }
     
-    public void activateAdjustControllersMode() {
-    	adjustControllersMode = true;
+    public void enableEditMode() {
+    	editMode = true;
     	pa.getSurface().setCursor(Cursor.DEFAULT_CURSOR);
     }
     
-    public void deactivateAdjustControllersMode() {
-    	adjustControllersMode = false;
+    public void disableEditMode() {
+    	editMode = false;
     	pa.getSurface().setCursor(Cursor.DEFAULT_CURSOR);
     }
     

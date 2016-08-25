@@ -3,6 +3,7 @@ package controllers;
 import geom.Rect;
 import processing.core.PApplet;
 import processing.core.PFont;
+import processing.core.PGraphics;
 
 /**
  * 
@@ -39,8 +40,8 @@ public class Button extends Controller {
 	 *******************/
 
 	@Override
-	public void draw(PApplet pa) {
-		buttonDisplay.display(pa, this);
+	public void draw(PGraphics pg) {
+		buttonDisplay.display(pg, this);
 	}
 	
 	public static class DefaultDisplay implements ControllerDisplay<Button> {
@@ -49,13 +50,13 @@ public class Button extends Controller {
 		private DefaultDisplay() {} 
 		
 		@Override
-		public void display(PApplet pa, Button b) {
-			pa.rectMode(pa.CORNER);
-			pa.textFont(b.getFont());
-			pa.textAlign(b.getTextAlignX(), b.getTextAlignY());
-			pa.textSize(b.getFontSize());
-			pa.fill(b.isHovered() ? b.getHoveredColor() : b.getDefaultColor());
-			pa.text(b.getName(), b.getX1(), b.getY1(), b.getWidth(), b.getHeight());
+		public void display(PGraphics pg, Button b) {
+			pg.rectMode(pg.CORNER);
+			pg.textFont(b.getFont());
+			pg.textAlign(b.getTextAlignX(), b.getTextAlignY());
+			pg.textSize(b.getFontSize());
+			pg.fill(b.isHovered() ? b.getHoveredColor() : b.getDefaultColor());
+			pg.text(b.getName(), b.getX1(), b.getY1(), b.getWidth(), b.getHeight());
 		}
 	}
 	
@@ -65,13 +66,13 @@ public class Button extends Controller {
 		private PlusDisplay() {}
 		
 		@Override
-		public void display(PApplet pa, Button b) {
-			pa.stroke(b.isHovered() ? b.getHoveredColor() : b.getDefaultColor());
+		public void display(PGraphics pg, Button b) {
+			pg.stroke(b.isHovered() ? b.getHoveredColor() : b.getDefaultColor());
 			float avgSideLength = ((b.getWidth() + b.getHeight())/2f);
-			pa.strokeWeight(avgSideLength / 15f);
-			pa.strokeCap(pa.SQUARE);
-			pa.line(b.getCenx() - b.getWidth()/2f, b.getCeny(), b.getCenx() + b.getWidth()/2f, b.getCeny());
-			pa.line(b.getCenx(), b.getCeny() - b.getHeight()/2f, b.getCenx(), b.getCeny() + b.getHeight()/2f);
+			pg.strokeWeight(avgSideLength / 15f);
+			pg.strokeCap(pg.SQUARE);
+			pg.line(b.getCenx() - b.getWidth()/2f, b.getCeny(), b.getCenx() + b.getWidth()/2f, b.getCeny());
+			pg.line(b.getCenx(), b.getCeny() - b.getHeight()/2f, b.getCenx(), b.getCeny() + b.getHeight()/2f);
 		}
 	}
 	

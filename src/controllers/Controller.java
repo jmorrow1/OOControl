@@ -2,6 +2,7 @@ package controllers;
 
 import geom.Rect;
 import processing.core.PApplet;
+import processing.core.PGraphics;
 import processing.data.JSONObject;
 
 /**
@@ -87,7 +88,7 @@ public abstract class Controller<T extends Controller> {
 	 ***** Drawing *****
 	 *******************/
     
-    public abstract void draw(PApplet pa);
+    public abstract void draw(PGraphics pg);
     
     /****************************
 	 ***** Controller Focus *****

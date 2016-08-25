@@ -5,6 +5,7 @@ import java.util.Arrays;
 import geom.Rect;
 import processing.core.PApplet;
 import processing.core.PFont;
+import processing.core.PGraphics;
 
 /**
  * 
@@ -51,7 +52,7 @@ public class MultiToggle extends Controller implements ControllerListener<Toggle
 	 *******************/
 
 	@Override
-	public void draw(PApplet pa) {}
+	public void draw(PGraphics pg) {}
 	
 	/*****************************
 	 ***** Controller Events *****

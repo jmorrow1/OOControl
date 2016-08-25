@@ -6,6 +6,7 @@ import controllers.Button.DefaultDisplay;
 import geom.Rect;
 import processing.core.PApplet;
 import processing.core.PFont;
+import processing.core.PGraphics;
 
 /**
  * 
@@ -45,8 +46,8 @@ public class Toggle extends Controller {
 	 *******************/
 
 	@Override
-	public void draw(PApplet pa) {
-		toggleDisplay.display(pa, this);
+	public void draw(PGraphics pg) {
+		toggleDisplay.display(pg, this);
 	}
 	
 	public static class DefaultDisplay implements ControllerDisplay<Toggle> {
@@ -55,18 +56,18 @@ public class Toggle extends Controller {
 		private DefaultDisplay() {} 
 		
 		@Override
-		public void display(PApplet pa, Toggle t) {
-			pa.rectMode(pa.CORNER);
-			pa.textFont(t.getFont());
-			pa.textAlign(t.getTextAlignX(), t.getTextAlignY());
-			pa.textSize(t.getFontSize());
+		public void display(PGraphics pg, Toggle t) {
+			pg.rectMode(pg.CORNER);
+			pg.textFont(t.getFont());
+			pg.textAlign(t.getTextAlignX(), t.getTextAlignY());
+			pg.textSize(t.getFontSize());
 			if (t.getState() == 1) {
-				pa.fill(0);
+				pg.fill(0);
 			}
 			else {
-				pa.fill(t.getColorInCurrentContext());
+				pg.fill(t.getColorInCurrentContext());
 			}
-			pa.text(t.getNames()[t.getState()], t.getX1(), t.getY1(), t.getWidth(), t.getHeight());
+			pg.text(t.getNames()[t.getState()], t.getX1(), t.getY1(), t.getWidth(), t.getHeight());
 		}
 	}
 	
