@@ -40,7 +40,7 @@ public class ControllerUpdater {
     	for (int i=0; i<controllers.size(); i++) {
     		Controller c = controllers.get(i);
     		if (!c.isHidden()) {
-    			c.draw(null);
+    			c.draw(pa.getGraphics());
     		}
     	}
     	if (editMode) {
