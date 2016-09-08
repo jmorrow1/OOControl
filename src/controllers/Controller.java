@@ -14,7 +14,7 @@ import processing.data.JSONObject;
 public abstract class Controller<T extends Controller> {
 	public static final int MOUSE_EVENT_RECEIVER = 0, KEY_EVENT_RECEIVER = 1;
 	public final int receiverMode;
-	protected int defaultColor = 0x555555, hoveredColor = 0;
+	protected int defaultColor = 0, hoveredColor = 0;
 	protected boolean hovered;
 	protected String name = "";
 	protected int id = 0;
