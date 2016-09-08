@@ -76,10 +76,11 @@ public abstract class Controller<T extends Controller> {
 	public void mouseEnter(MouseEvent e) {
 		hovered = true;
 	}
+	public void mouseMoved(MouseEvent e) {}
     public void mousePressed(MouseEvent e) {}
     public void mouseDragged(MouseEvent e) {}
     public void mouseReleased(MouseEvent e) {}
-    public void mouseLeave(MouseEvent e) {
+    public void mouseExit(MouseEvent e) {
     	hovered = false;
     }
     public void keyPressed(KeyEvent e) {}

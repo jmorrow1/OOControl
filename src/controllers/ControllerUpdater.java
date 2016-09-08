@@ -60,7 +60,7 @@ public class ControllerUpdater {
     public void mouseMoved(MouseEvent e) {
         if (activeMouseEventReceiver != null) {
             if (!activeMouseEventReceiver.touches(e.x, e.y)) {   	
-                activeMouseEventReceiver.mouseLeave(e);
+                activeMouseEventReceiver.mouseExit(e);
                 activeMouseEventReceiver = null;
             }
         }
@@ -69,16 +69,18 @@ public class ControllerUpdater {
         while (i >= 0) {
         	Controller c = controllers.get(i);
             if (c.touches(e.x, e.y)) {
-            	if (c.isEnabled()) {
+            	if (c.isEnabled()) {        		
 	            	if (activeMouseEventReceiver != c) {
 	            		if (activeMouseEventReceiver != null) {
-	            			activeMouseEventReceiver.mouseLeave(e);
+	            			activeMouseEventReceiver.mouseExit(e);
 	            		}
 	            		activeMouseEventReceiver = c;
 	            		if (!editMode) {
 	            			c.mouseEnter(e);
 	            		}
 	            	}
+	            	
+	            	activeMouseEventReceiver.mouseMoved(e);
 	                
 	                break;
             	}
@@ -115,7 +117,7 @@ public class ControllerUpdater {
     	if (activeMouseEventReceiver != null) {
     		activeMouseEventReceiver.mouseReleased(e);
     		if (!activeMouseEventReceiver.touches(e.x, e.y)) {
-    			activeMouseEventReceiver.mouseLeave(e);
+    			activeMouseEventReceiver.mouseExit(e);
     			activeMouseEventReceiver = null;
     		}
     	}
@@ -274,6 +276,10 @@ public class ControllerUpdater {
     
     public boolean hasActiveController() {
     	return activeMouseEventReceiver != null;
+    }
+    
+    public PApplet getPApplet() {
+    	return pa;
     }
     
     public void setPApplet(PApplet pa) {

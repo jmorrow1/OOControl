@@ -88,7 +88,7 @@ public class Button extends Controller {
 		sendEvent(this);
 	}
 	
-	public void mouseLeave(MouseEvent e) {
+	public void mouseExit(MouseEvent e) {
 		hovered = false;
 	}
 	

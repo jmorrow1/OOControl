@@ -1,4 +1,4 @@
-package controllers;
+package extra;
 
 import java.awt.Cursor;
 import java.util.ArrayList;
@@ -33,13 +33,8 @@ public class IntSlider extends Controller {
     private int pixelsPerValue=4;
     private int minValue, maxValue, value;
     
-    private PApplet pa; //an IntSlider must have a PApplet instance
-                        //because its width and height and positioning data
-                        //are context-sensitive to the state of a PApplet instance.
-    
-    public IntSlider(PFont font, int id, ControllerListener<IntSlider> listener, int minValue, int maxValue, ControllerUpdater updater, float updatePriority, PApplet pa) {
+    public IntSlider(PFont font, int id, ControllerListener<IntSlider> listener, int minValue, int maxValue, ControllerUpdater updater, float updatePriority) {
     	super(updater, updatePriority);
-    	this.pa = pa;
         this.id = id;
         this.minValue = minValue;
         this.maxValue = maxValue;
@@ -49,10 +44,11 @@ public class IntSlider extends Controller {
     }
     
     public void draw(PGraphics pg) {
-        pa.fill(getColorInCurrentContext());
-        pa.textFont(font);
-        pa.textAlign(pa.CENTER, pa.CENTER);
-        pa.text(value, rect.getCenx(), rect.getCeny());
+        pg.fill(getColorInCurrentContext());
+        pg.textFont(font);
+        pg.textAlign(pg.CENTER, pg.CENTER);
+        pg.rectMode(pg.CENTER);
+        pg.text("" + value, rect.getCenx(), rect.getCeny(), rect.getWidth(), rect.getHeight());
     }
     
     public boolean touches(float x, float y) {
@@ -79,7 +75,7 @@ public class IntSlider extends Controller {
     public void mouseReleased(MouseEvent e) {
     }
     
-    public void mouseLeave(MouseEvent e) {
+    public void mouseExit(MouseEvent e) {
     	hovered = false;
         e.pa.getSurface().setCursor(Cursor.DEFAULT_CURSOR);
     }
