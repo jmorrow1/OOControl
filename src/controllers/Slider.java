@@ -44,16 +44,16 @@ public class Slider extends Controller {
 		}
 		else {
 			if (getWidth() >= getHeight()) {
-				setCurrentValue(minValue + quantize(PApplet.map(x, getX1(), getX2(), minValue, maxValue), 0, tick));
+				setCurrentValue(minValue + quantize(PApplet.map(x, getX1(), getX2(), minValue, maxValue), minValue, tick));
 			}
 			else {
-				setCurrentValue(minValue + quantize(PApplet.map(y, getY1(), getY2(), minValue, maxValue), 0, tick));
+				setCurrentValue(minValue + quantize(PApplet.map(y, getY1(), getY2(), minValue, maxValue), minValue, tick));
 			}
 		}
 	}
 	
 	public static class DefaultDisplay implements ControllerDisplay<Slider> {
-		public boolean drawLimits = true;
+		public boolean drawLimits = false;
 		public boolean drawValue = true;
 		
 		private DefaultDisplay() {}
