@@ -34,6 +34,7 @@ public class Slider extends Controller {
 	}
 	
 	private void handleMousePress(int x, int y) {
+		float prevValue = currValue;
 		if (tick <= 0) {
 			if (getWidth() >= getHeight()) {
 				setCurrentValue(PApplet.map(x, getX1(), getX2(), minValue, maxValue));
@@ -49,6 +50,9 @@ public class Slider extends Controller {
 			else {
 				setCurrentValue(minValue + quantize(PApplet.map(y, getY1(), getY2(), minValue, maxValue), minValue, tick));
 			}
+		}
+		if (currValue != prevValue) {
+			sendEvent(this);
 		}
 	}
 	
