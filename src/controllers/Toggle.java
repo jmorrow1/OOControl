@@ -2,7 +2,6 @@ package controllers;
 
 import java.util.Arrays;
 
-import controllers.Button.DefaultDisplay;
 import geom.Rect;
 import processing.core.PApplet;
 import processing.core.PFont;
@@ -28,7 +27,7 @@ public class Toggle extends Controller {
 		super(rect, updater, priority);
 		this.font = font;
 		this.fontSize = fontSize;
-		toggleDisplay = DefaultDisplay.instance;
+		toggleDisplay = TextualDisplay.instance;
 		hoveredColor = 0;
 		defaultColor = -10197916;
 	}
@@ -50,10 +49,10 @@ public class Toggle extends Controller {
 		toggleDisplay.display(pg, this);
 	}
 	
-	public static class DefaultDisplay implements ControllerDisplay<Toggle> {
-		public static DefaultDisplay instance = new DefaultDisplay();
+	public static class TextualDisplay implements ControllerDisplay<Toggle> {
+		public static TextualDisplay instance = new TextualDisplay();
 		
-		private DefaultDisplay() {} 
+		private TextualDisplay() {} 
 		
 		@Override
 		public void display(PGraphics pg, Toggle t) {
@@ -61,13 +60,28 @@ public class Toggle extends Controller {
 			pg.textFont(t.getFont());
 			pg.textAlign(t.getTextAlignX(), t.getTextAlignY());
 			pg.textSize(t.getFontSize());
-			if (t.getState() == 1) {
-				pg.fill(0);
-			}
-			else {
-				pg.fill(t.getColorInCurrentContext());
-			}
+			
+			float maxAlpha = pg.getStyle().colorModeA;
+			float alpha = PApplet.map(t.getState(), 0, t.getNumStates()-1, 0.5f*maxAlpha, maxAlpha);
+			pg.fill(t.getHoveredColor(), alpha);
+			
 			pg.text(t.getNames()[t.getState()], t.getX1(), t.getY1(), t.getWidth(), t.getHeight());
+		}
+	}
+	
+	public static class GraphicDisplay implements ControllerDisplay<Toggle> {
+		public static GraphicDisplay instance = new GraphicDisplay();
+		
+		private GraphicDisplay() {}
+		
+		@Override
+		public void display(PGraphics pg, Toggle t) {
+			pg.noStroke();
+			float maxAlpha = pg.getStyle().colorModeA;
+			float alpha = PApplet.map(t.getState(), 0, t.getNumStates()-1, 0.5f*maxAlpha, maxAlpha);
+			pg.fill(t.getDefaultColor(), alpha);
+			pg.rectMode(pg.CORNER);
+			pg.rect(t.getX1(), t.getY1(), t.getWidth(), t.getHeight());
 		}
 	}
 	
