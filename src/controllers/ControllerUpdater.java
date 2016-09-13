@@ -25,14 +25,21 @@ public class ControllerUpdater {
     private boolean editMode;
     
     protected PApplet pa;
+    private ControllerListener defaultListener;
     
     private MouseEvent e;
     
-    private int editColor = 0xFFF2CD51;
+    private int editColor = 0xFFF2CD51;   
     
     public ControllerUpdater(PApplet pa) {
+    	this(pa, null);
+    }
+    
+    public ControllerUpdater(PApplet pa, ControllerListener defaultListener) {
     	defaultFont = new PFont(PFont.findFont("font"), true);
+    	
     	this.pa = pa;
+    	this.defaultListener = defaultListener;
     	e = new MouseEvent(pa);
     }
     
@@ -207,6 +214,10 @@ public class ControllerUpdater {
     		}
     	}
     	
+    	if (defaultListener != null) {
+    		e.setListener(defaultListener);
+    	} 	
+    	
     	controllers.add(e);
     	priorities.add(priorityValue);
     }
@@ -284,6 +295,14 @@ public class ControllerUpdater {
     
     public void setPApplet(PApplet pa) {
     	this.pa = pa;
+    }
+    
+    public ControllerListener getDefaultListener() {
+    	return defaultListener;
+    }
+    
+    public void setDefaultListener(ControllerListener defaultListener) {
+    	this.defaultListener = defaultListener;
     }
     
     public String toString() {
