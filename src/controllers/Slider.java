@@ -4,12 +4,12 @@ import processing.core.PApplet;
 import processing.core.PGraphics;
 
 public class Slider extends Controller {
-	private float minValue, maxValue, currValue;
-	private ControllerDisplay<Slider> sliderDisplay = DefaultDisplay.instance;
+	private float minValue, maxValue, currValue, tick;
+	private ControllerDisplay<Slider> sliderDisplay = new DefaultDisplay();
 	
 	public Slider(float initValue, float minValue, float maxValue, ControllerUpdater updater, float priority) {
 		super(updater, priority);
-		this.currValue = initValue;
+		this.currValue = PApplet.constrain(initValue, minValue, maxValue);
 		this.minValue = minValue;
 		this.maxValue = maxValue;
 		setCurrentValue(0);
@@ -35,30 +35,43 @@ public class Slider extends Controller {
 	}
 	
 	private void handleMousePress(int x, int y) {
-		if (getWidth() >= getHeight()) {
-			setCurrentValue(PApplet.map(x, getX1(), getX2(), minValue, maxValue));
+		if (tick <= 0) {
+			if (getWidth() >= getHeight()) {
+				setCurrentValue(PApplet.map(x, getX1(), getX2(), minValue, maxValue));
+			}
+			else {
+				setCurrentValue(PApplet.map(y, getY1(), getY2(), minValue, maxValue));
+			}
 		}
 		else {
-			setCurrentValue(PApplet.map(y, getY1(), getY2(), minValue, maxValue));
+			if (getWidth() >= getHeight()) {
+				setCurrentValue(minValue + quantize(PApplet.map(x, getX1(), getX2(), minValue, maxValue), 0, tick));
+			}
+			else {
+				setCurrentValue(minValue + quantize(PApplet.map(y, getY1(), getY2(), minValue, maxValue), 0, tick));
+			}
 		}
 	}
 	
 	public static class DefaultDisplay implements ControllerDisplay<Slider> {
-		public static DefaultDisplay instance = new DefaultDisplay();
+		public boolean drawLimits = true;
+		public boolean drawValue = true;
 		
 		private DefaultDisplay() {}
 		
 		@Override
 		public void display(PGraphics pg, Slider s) {		
 			final float diam = 12;
+			float x1 = s.getX1() + diam/2f;
+			float x2 = s.getX2() - diam/2f;
+			float y1 = s.getY1() + diam/2f;
+			float y2 = s.getY2() - diam/2f;
 			
 			pg.stroke(s.getColorInCurrentContext());
 			pg.fill(s.getColorInCurrentContext());
 			pg.strokeWeight(4);
 			pg.strokeCap(pg.ROUND);
-			if (s.isHorizontallyOriented()) {
-				float x1 = s.getX1() + diam/2f;
-				float x2 = s.getX2() - diam/2f;
+			if (s.isHorizontallyOriented()) {		
 				pg.line(x1, s.getCeny(), x2, s.getCeny());
 				pg.noStroke();
 				float x = PApplet.map(s.getCurrentValue(), s.getMinValue(), s.getMaxValue(), x1, x2);
@@ -66,15 +79,84 @@ public class Slider extends Controller {
 				pg.ellipse(x, s.getCeny(), diam, diam);
 			}
 			else {
-				float y1 = s.getY1() + diam/2f;
-				float y2 = s.getY2() - diam/2f;
 				pg.line(s.getCenx(), y1, s.getCenx(), y2);
 				pg.noStroke();
 				float y = PApplet.map(s.getCurrentValue(), s.getMinValue(), s.getMaxValue(), y1, y2);
 				pg.ellipseMode(pg.CENTER);
 				pg.ellipse(s.getCenx(), y, diam, diam);
 			}
-		}	
+			
+			if (s.isHorizontallyOriented()) {
+				if (drawLimits) {
+					pg.textSize(12);
+					pg.fill(s.getColorInCurrentContext());
+					pg.textAlign(pg.CENTER, pg.BOTTOM);
+					pg.text(format(s.getMinValue()), s.getX1(), s.getCeny() - 10);
+					
+					pg.textSize(12);
+					pg.fill(s.getColorInCurrentContext());
+					pg.textAlign(pg.CENTER, pg.BOTTOM);
+					pg.text(format(s.getMaxValue()), s.getX2(), s.getCeny() - 10);
+				}
+				
+				if (drawValue) {
+					pg.textSize(12);
+					pg.fill(s.getColorInCurrentContext());
+					pg.textAlign(pg.CENTER, pg.TOP);
+					float currentPosition = PApplet.map(s.getCurrentValue(), s.getMinValue(), s.getMaxValue(), x1, x2);
+					pg.text(format(s.getCurrentValue()), currentPosition, s.getCeny() + 10);
+				}
+			}
+			else if (s.isVerticallyOriented()) {
+				if (drawLimits) {
+					pg.textSize(12);
+					pg.fill(s.getColorInCurrentContext());
+					pg.textAlign(pg.CENTER, pg.BOTTOM);
+					pg.text(format(s.getMinValue()), s.getCenx(), s.getY1() - 6);
+					
+					pg.textSize(12);
+					pg.fill(s.getColorInCurrentContext());
+					pg.textAlign(pg.CENTER, pg.TOP);
+					pg.text(format(s.getMaxValue()), s.getCenx(), s.getY2() + 6);
+				}
+				
+				if (drawValue) {
+					pg.textSize(12);
+					pg.fill(s.getColorInCurrentContext());
+					pg.textAlign(pg.LEFT, pg.CENTER);
+					float currentPosition = PApplet.map(s.getCurrentValue(), s.getMinValue(), s.getMaxValue(), y1, y2);
+					pg.text(format(s.getCurrentValue()), s.getCenx() + 10, currentPosition);
+				}
+			}
+		}
+
+		private static String format(float f) {
+			int numDecimals = PApplet.min(3, numAfterDecimal(f));
+			return String.format("%." + numDecimals + "f", f);
+		}
+		
+		private static int numAfterDecimal(float f) {
+			if (PApplet.floor(f) == f) {
+				return 0;
+			}
+			
+			String s = Float.toString(f);
+			
+			int count = 0;
+			boolean startCounting = false;
+			for (int i=0; i<s.length(); i++) {
+				if (startCounting) {
+					count++;
+				}
+				else {
+					if (s.charAt(i) == '.') {
+						startCounting = true;
+					}
+				}
+			}
+			
+			return count;
+		}
 	}
 	
 	public boolean isHorizontallyOriented() {
@@ -104,5 +186,24 @@ public class Slider extends Controller {
 	
 	public float getMaxValue() {
 		return maxValue;
+	}
+	
+	public float getTick() {
+		return tick;
+	}
+	
+	public void setTick(float tick) {
+		this.tick = tick;
+	}
+	
+	public void setNoTicks() {
+		this.tick = 0;
+	}
+	
+	private static float quantize(float val, float min, float quantum) {
+	    val -= min;
+	    val /= quantum;
+	    val = (int)val;
+	    return val * quantum;
 	}
 }

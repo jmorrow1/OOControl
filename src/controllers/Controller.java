@@ -131,6 +131,10 @@ public abstract class Controller<T extends Controller> {
     	this.name = name;
     }
     
+    public void setRect(Rect rect) {
+    	this.rect = rect;
+    }
+    
     public void setSize(float width, float height) {
 		rect.setWidth(width);
 		rect.setHeight(height);
