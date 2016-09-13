@@ -12,7 +12,6 @@ public class Slider extends Controller {
 		this.currValue = PApplet.constrain(initValue, minValue, maxValue);
 		this.minValue = minValue;
 		this.maxValue = maxValue;
-		setCurrentValue(0);
 	}
 	
 	public Slider(float minValue, float maxValue, ControllerUpdater updater, float priority) {
