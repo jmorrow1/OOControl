@@ -16,6 +16,7 @@ public abstract class Controller<T extends Controller> {
 	public final int receiverMode;
 	protected int defaultColor = 0, hoveredColor = 0;
 	protected boolean hovered;
+	protected String groupName = "";
 	protected String name = "";
 	protected int id = 0;
 	protected ControllerUpdater updater;	
@@ -129,6 +130,14 @@ public abstract class Controller<T extends Controller> {
     
     public void setName(String name) {
     	this.name = name;
+    }
+    
+    public String getGroupName() {
+    	return groupName;
+    }
+    
+    public void setGroupName(String groupName) {
+    	this.groupName = groupName;
     }
     
     public void setRect(Rect rect) {

@@ -84,19 +84,27 @@ public class MultiToggle extends Controller implements ControllerListener<Toggle
 		return -1;
 	}
 	
+	@Override
 	public void translate(float dx, float dy) {
 		for (Toggle t : toggles) {
 			t.translate(dx, dy);
 		}
 	}
 	
+	@Override
 	public void setCenter(float x, float y) {
 		float dx = x - getCenx();
 		float dy = y - getCeny();
 		translate(dx, dy);
 	}
 	
+	@Override
 	public void setSize(float width, float height) {
+		//TODO
+	}
+	
+	@Override
+	public void setRect(Rect rect) {
 		//TODO
 	}
 	
@@ -127,6 +135,7 @@ public class MultiToggle extends Controller implements ControllerListener<Toggle
 	public void setState(int state) {
 		toggles[this.state].setState(0);
 		this.state = state;
+		toggles[this.state].setState(1);
 	}
 	
 	public int getState() {
@@ -153,5 +162,9 @@ public class MultiToggle extends Controller implements ControllerListener<Toggle
 	
 	public int getNumToggles() {
 		return toggles.length;
+	}
+	
+	public Toggle getToggle(int i) {
+		return toggles[i];
 	}
 }

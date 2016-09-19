@@ -187,4 +187,13 @@ public class Toggle extends Controller {
 		this.textAlignX = textAlignX;
 		this.textAlignY = textAlignY;
 	}
+	
+	public int getColorInCurrentContext() {
+		if (state != 0) {
+			return this.getHoveredColor();
+		}
+		else {
+			return super.getColorInCurrentContext();
+		}
+	}
 }
