@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.ArrayList;
+
 import geom.Rect;
 import processing.core.PApplet;
 import processing.core.PGraphics;
@@ -24,6 +26,8 @@ public abstract class Controller<T extends Controller> {
 	private ControllerListener<T> listener;
 	private boolean frozen = false; //If true, will still be displayed as long as (shown == true) but won't be interactive
 	private boolean hidden = false; //If true, will not be displayed and will not be interactive
+	
+	protected ArrayList<Controller> childControllers = new ArrayList<Controller>();
 	
 	/**************************
 	 ***** Initialization *****
@@ -90,7 +94,7 @@ public abstract class Controller<T extends Controller> {
 	 ***** Drawing *****
 	 *******************/
     
-    public abstract void draw(PGraphics pg);
+    public abstract void draw(PGraphics g);
     
     /****************************
 	 ***** Controller Focus *****
@@ -141,7 +145,7 @@ public abstract class Controller<T extends Controller> {
     }
     
     public void setRect(Rect rect) {
-    	this.rect = rect;
+    	this.rect = new Rect(rect);
     }
     
     public void setSize(float width, float height) {
@@ -150,7 +154,12 @@ public abstract class Controller<T extends Controller> {
 	}
 	
 	public void setCenter(float x, float y) {
+		float dx = x - rect.getCenx();
+		float dy = y - rect.getCeny();
 		rect.setCenter(x, y);
+		for (Controller c : childControllers) {
+			c.translate(dx, dy);
+		}
 	}
 	
 	public float getX1() {
@@ -227,18 +236,30 @@ public abstract class Controller<T extends Controller> {
 	
 	public void hide() {
 		hidden = true;
+		for (Controller c : childControllers) {
+			c.hide();
+		}
 	}
 	
 	public void show() {
 		hidden = false;
+		for (Controller c : childControllers) {
+			c.show();
+		}
 	}
 	
 	public void freeze() {
 		frozen = true;
+		for (Controller c : childControllers) {
+			c.freeze();
+		}
 	}
 	
 	public void unfreeze() {
 		frozen = false;
+		for (Controller c : childControllers) {
+			c.unfreeze();
+		}
 	}
     
     /*****************
@@ -257,6 +278,9 @@ public abstract class Controller<T extends Controller> {
     
 	public void translate(float dx, float dy) {
 		rect.translate(dx, dy);
+		for (Controller c : childControllers) {
+			c.translate(dx, dy);
+		}
 	}
 	
 	public void resize(float dwidth, float dheight) {
@@ -266,5 +290,8 @@ public abstract class Controller<T extends Controller> {
 	
 	public void dispose() {
 		updater.removeController(this);
+		for (Controller c : childControllers) {
+			c.dispose();
+		}
 	}
 }
