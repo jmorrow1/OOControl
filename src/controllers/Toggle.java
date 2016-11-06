@@ -161,6 +161,10 @@ public class Toggle extends Controller {
 		return 2;
 	}
 	
+	/**
+	 * @deprecated
+	 * @param state
+	 */
 	public void setStateSilently(int state) {
 		this.state = (state == 1);
 	}
