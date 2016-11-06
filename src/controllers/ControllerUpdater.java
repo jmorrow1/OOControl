@@ -55,7 +55,7 @@ public class ControllerUpdater {
     			Controller c = activeMouseEventReceiver;
     			pa.noStroke();
     			pa.fill(0x77ffffff);
-    			c.rect.display(pa.getGraphics());
+    			c.rect.draw(pa.getGraphics());
     		}
     	}
     }
@@ -142,6 +142,11 @@ public class ControllerUpdater {
     	
     	if (activeMouseEventReceiver != null) {
     		activeMouseEventReceiver.mouseDragged(e);
+    		for (Controller c : controllers) {
+    			if (c.touches(e.x, e.y)) {
+    				activeMouseEventReceiver.mouseDraggedOver(c);
+    			}
+    		}
     	}
     }
     
@@ -267,7 +272,7 @@ public class ControllerUpdater {
     	return controllers.contains(c);
     }
     
-    public int size() {
+    public int controllerCount() {
     	return controllers.size();
     }
     
