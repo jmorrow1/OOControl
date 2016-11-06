@@ -21,6 +21,7 @@ public class Toggle extends Controller {
 	
 	private boolean state;
 	private String[] names = new String[] {"", ""};
+	private int onColor;
 
 	public Toggle(Rect rect, PFont font, int fontSize, ControllerUpdater updater, float priority) {
 		super(rect, updater, priority);
@@ -60,11 +61,9 @@ public class Toggle extends Controller {
 			pg.textAlign(t.getTextAlignX(), t.getTextAlignY());
 			pg.textSize(t.getFontSize());
 			
-			float maxAlpha = pg.getStyle().colorModeA;
-			float alpha = PApplet.map(t.getState(), 0, t.getNumStates()-1, 0.5f*maxAlpha, maxAlpha);
-			pg.fill(t.getHoveredColor(), alpha);
+			pg.fill(t.getColorInCurrentContext());
 			
-			pg.text(t.getNames()[t.getState()], t.getX1(), t.getY1(), t.getWidth(), t.getHeight());
+			pg.text(t.isOn() ? t.getNames()[0] : t.getNames()[1], t.getX1(), t.getY1(), t.getWidth(), t.getHeight());
 		}
 	}
 	
@@ -76,9 +75,7 @@ public class Toggle extends Controller {
 		@Override
 		public void display(PGraphics pg, Toggle t) {
 			pg.noStroke();
-			float maxAlpha = pg.getStyle().colorModeA;
-			float alpha = PApplet.map(t.getState(), 0, t.getNumStates()-1, 0.5f*maxAlpha, maxAlpha);
-			pg.fill(t.getDefaultColor(), alpha);
+			pg.fill(t.getColorInCurrentContext());
 			pg.rectMode(pg.CORNER);
 			pg.rect(t.getX1(), t.getY1(), t.getWidth(), t.getHeight());
 		}
@@ -196,6 +193,20 @@ public class Toggle extends Controller {
 	
 	public boolean isOff() {
 		return !state;
+	}
+	
+	@Override
+	public int getColorInCurrentContext() {
+		if (isOff()) {
+			return super.getColorInCurrentContext();
+		}
+		else {
+			return onColor;
+		}
+	}
+	
+	public void setOnColor(int onColor) {
+		this.onColor = onColor;
 	}
 	
 	public void setTextAlignX(int textAlignX) {
