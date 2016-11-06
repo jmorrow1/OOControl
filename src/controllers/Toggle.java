@@ -19,8 +19,7 @@ public class Toggle extends Controller {
 	private int textAlignX = PApplet.CENTER;
 	private int textAlignY = PApplet.CENTER;
 	
-	private int state;
-	private int numStates = 2;
+	private boolean state;
 	private String[] names = new String[] {"", ""};
 
 	public Toggle(Rect rect, PFont font, int fontSize, ControllerUpdater updater, float priority) {
@@ -94,7 +93,7 @@ public class Toggle extends Controller {
 	}
 	
 	public void mousePressed(MouseEvent e) {
-		state = (state+1) % numStates;
+		state = !state;
 		sendEvent(this);
 	}
 	
@@ -146,31 +145,53 @@ public class Toggle extends Controller {
 		return names[i];
 	}
 	
+	/**
+	 * @deprecated
+	 * @param numStates
+	 */
 	public void setNumStates(int numStates) {
-		this.numStates = PApplet.max(numStates, 1);
-		names = Arrays.copyOfRange(names, 0, numStates);
-		for (int i=0; i<names.length; i++) {
-			if (names[i] == null) {
-				names[i] = "";
-			}
-		}
+		
 	}
 	
+	/**
+	 * @deprecated
+	 * @return
+	 */
 	public int getNumStates() {
-		return numStates;
+		return 2;
 	}
 	
 	public void setStateSilently(int state) {
-		this.state = PApplet.constrain(state, 0, numStates-1);
+		this.state = (state == 1);
 	}
 	
+	/**
+	 * @deprecated
+	 * @param state
+	 */
 	public void setState(int state) {
-		this.state = PApplet.constrain(state, 0, numStates-1);
+		this.state = (state == 1);
 		sendEvent(this);
 	}
 	
+	/**
+	 * @deprecated
+	 * @return
+	 */
 	public int getState() {
+		return state ? 1 : 0;
+	}
+	
+	public void setState(boolean state) {
+		this.state = state;
+	}
+	
+	public boolean isOn() {
 		return state;
+	}
+	
+	public boolean isOff() {
+		return !state;
 	}
 	
 	public void setTextAlignX(int textAlignX) {
