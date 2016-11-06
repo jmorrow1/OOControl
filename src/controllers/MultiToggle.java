@@ -10,7 +10,7 @@ import processing.core.PGraphics;
 /**
  * 
  * @author James Morrow
- *
+ * @deprecated
  */
 public class MultiToggle extends Controller implements ControllerListener<Toggle> {
 	private int state = 0;
