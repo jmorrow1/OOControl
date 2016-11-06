@@ -126,6 +126,7 @@ public class Toggle extends Controller {
 		return font;
 	}
 	
+	@Override
 	public void setName(String name) {
 		super.setName(name);
 		for (int i=0; i<this.names.length; i++) {
@@ -159,8 +160,13 @@ public class Toggle extends Controller {
 		return numStates;
 	}
 	
+	public void setStateSilently(int state) {
+		this.state = PApplet.constrain(state, 0, numStates-1);
+	}
+	
 	public void setState(int state) {
 		this.state = PApplet.constrain(state, 0, numStates-1);
+		sendEvent(this);
 	}
 	
 	public int getState() {
@@ -187,13 +193,5 @@ public class Toggle extends Controller {
 		this.textAlignX = textAlignX;
 		this.textAlignY = textAlignY;
 	}
-	
-	public int getColorInCurrentContext() {
-		if (state != 0) {
-			return this.getHoveredColor();
-		}
-		else {
-			return super.getColorInCurrentContext();
-		}
-	}
+
 }

@@ -74,7 +74,7 @@ public class Rect {
 		return new Rect(this);
 	}
 	
-	public void display(PGraphics pg) {
+	public void draw(PGraphics pg) {
 		pg.rectMode(pg.CENTER);
 		pg.rect(cenx, ceny, width, height);
 	}
@@ -187,6 +187,30 @@ public class Rect {
 	public void setCenter(float cenx, float ceny) {
 		this.cenx = cenx;
 		this.ceny = ceny;
+	}
+	
+	public void stretch(float dx, float dy) {
+		float x1 = getX1();
+		float y1 = getY1();
+		float x2 = getX2();
+		float y2 = getY2();
+	    
+	    if (dx < 0) {
+	    	x1 -= dx;
+	    }
+	    else {
+	    	x2 += dx;
+	    }
+	    
+	    if (dy < 0) {
+	    	y1 -= dy;
+	    }
+	    else {
+	    	y1 += dy;
+	    }
+	    
+	    this.cenx = (x1+x2)/2f;
+	    this.ceny = (y1+y2)/2f;
 	}
 
 	@Override

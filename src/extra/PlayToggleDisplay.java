@@ -13,28 +13,24 @@ public class PlayToggleDisplay implements ControllerDisplay<Toggle> {
 	@Override
 	public void display(PGraphics pg, Toggle t) {
 		pg.fill(t.getColorInCurrentContext());
+		pg.noStroke();
 		if (! (t.getState() == 1)) {
-			drawPlayEmblem(t.getCenx(), t.getCeny(), t.getWidth()/2f, t.getHeight()/2f, pg);
+			drawPlayEmblem(t.getCenx(), t.getCeny(), 0.3f * t.getWidth(), 0.33f * t.getHeight(), pg);
 		}
 		else {
-			drawPauseEmblem(t.getCenx(), t.getCeny(), t.getWidth()/2f, t.getHeight()/2f, pg);
+			drawPauseEmblem(t.getCenx(), t.getCeny(), 0.33f * t.getWidth(), 0.25f * t.getHeight(), pg);
 		}
 	}
 	
 	private void drawPlayEmblem(float x, float y, float xRadius, float yRadius, PGraphics pg) {
-		xRadius *= 0.66f;
-		yRadius *= 0.66f;
 		pg.triangle(x + xRadius, y,
-				    x + xRadius*PApplet.cos(0.7f*pg.PI), y + yRadius*PApplet.sin(0.7f*pg.PI),
-				    x + xRadius*PApplet.cos(1.3f*pg.PI), y + yRadius*PApplet.sin(1.3f*pg.PI));
+				    x - xRadius, y + yRadius*PApplet.sin(0.7f*pg.PI),
+				    x - xRadius, y + yRadius*PApplet.sin(1.3f*pg.PI));
 	}
 	
-	private void drawPauseEmblem(float x, float y, float xRadius, float yRadius, PGraphics pg) {
-		float rectWidth = xRadius * 0.3f;
-		float rectHeight = yRadius * 0.9f;
-		
-		pg.rectMode(pg.CENTER);
-		pg.rect(x - rectWidth, y, rectWidth, rectHeight);
-		pg.rect(x + rectWidth, y, rectWidth, rectHeight);
+	private void drawPauseEmblem(float x, float y, float xRadius, float yRadius, PGraphics pg) {		
+		pg.rectMode(pg.RADIUS);
+		pg.rect(x - 0.5f * xRadius, y, 0.25f * xRadius, yRadius);
+		pg.rect(x + 0.5f * xRadius, y, 0.25f * xRadius, yRadius);
 	}
 }

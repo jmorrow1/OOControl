@@ -57,10 +57,16 @@ public class Slider extends Controller {
 	}
 	
 	public static class DefaultDisplay implements ControllerDisplay<Slider> {
-		public boolean drawLimits = false;
-		public boolean drawValue = true;
+		public boolean drawLimits, drawValue;
 		
-		private DefaultDisplay() {}
+		public DefaultDisplay() {
+			this(false, true);
+		}
+		
+		public DefaultDisplay(boolean drawLimits, boolean drawValue) {
+			this.drawLimits = drawLimits;
+			this.drawValue = drawValue;
+		}
 		
 		@Override
 		public void display(PGraphics pg, Slider s) {		
@@ -201,6 +207,10 @@ public class Slider extends Controller {
 	
 	public void setNoTicks() {
 		this.tick = 0;
+	}
+	
+	public void setDisplay(ControllerDisplay<Slider> display) {
+		this.sliderDisplay = display;
 	}
 	
 	private static float quantize(float val, float min, float quantum) {

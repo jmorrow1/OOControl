@@ -34,7 +34,7 @@ public class Window<T extends Controller> extends Controller {
 		
 		pg.stroke(0);
 		pg.noFill();
-		rect.display(pg);
+		rect.draw(pg);
 	}
 	
 	/******************

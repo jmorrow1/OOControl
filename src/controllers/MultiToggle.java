@@ -61,13 +61,14 @@ public class MultiToggle extends Controller implements ControllerListener<Toggle
 	@Override
 	public void controllerEvent(Toggle t) {
 		if (t.getState() == 0) {
-			t.setState(1);
+			t.setStateSilently(1);
 		}
 		else if (t.getState() == 1) {
-			toggles[state].setState(0);
+			toggles[state].setStateSilently(0);
 			state = indexOf(t, toggles);
-			toggles[state].setState(1);
+			toggles[state].setStateSilently(1);
 		}
+		
 		sendEvent(this);
 	}
 	

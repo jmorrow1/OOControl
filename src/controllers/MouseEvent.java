@@ -20,11 +20,23 @@ public class MouseEvent {
 		this.pa = pa;
 	}
 	
+	public void set(PApplet pa) {
+		this.x = pa.mouseX;
+		this.y = pa.mouseY;
+		this.dx = pa.mouseX - pa.pmouseX;
+		this.dy = pa.mouseY - pa.pmouseY;
+	}
+	
 	public MouseEvent set(int x, int y, int px, int py) {
 		this.x = x;
 		this.y = y;
 		this.dx = x - px;
 		this.dy = y - py;
 		return this;
+	}
+	
+	public void translate(float dx, float dy) {
+		this.x += dx;
+		this.y += dy;
 	}
 }
