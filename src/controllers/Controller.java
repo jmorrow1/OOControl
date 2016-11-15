@@ -21,11 +21,12 @@ public abstract class Controller<T extends Controller> {
 	protected String groupName = "";
 	protected String name = "";
 	protected int id = 0;
-	protected ControllerUpdater updater;	
+	protected ControllerUpdater updater;
 	protected Rect rect;
 	private ControllerListener<T> listener;
 	private boolean frozen = false; //If true, will still be displayed as long as (shown == true) but won't be interactive
 	private boolean hidden = false; //If true, will not be displayed and will not be interactive
+	private boolean sticky = true; //If true, the controller stays selected even when the mouse drags away from the controller
 	
 	protected ArrayList<Controller> childControllers = new ArrayList<Controller>();
 	
@@ -263,6 +264,14 @@ public abstract class Controller<T extends Controller> {
 		}
 	}
     
+	public final boolean isSticky() {
+		return sticky;
+	}
+	
+	public final void setSticky(boolean sticky) {
+		this.sticky = sticky;
+	}
+	
     /*****************
 	 ***** Other *****
 	 *****************/
@@ -273,6 +282,7 @@ public abstract class Controller<T extends Controller> {
     	}
     }
     
+	@Override
     public String toString() {
     	return "{(" + this.getClass().getName() + ") name = \"" + this.getName() + "\", priority = " + updater.getControllerPriority(this) + "}";
     }

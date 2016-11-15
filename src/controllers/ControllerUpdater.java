@@ -65,6 +65,7 @@ public class ControllerUpdater {
     }
 
     public void mouseMoved(MouseEvent e) {
+    	//handle mouse movement outside of a controller
         if (activeMouseEventReceiver != null) {
             if (!activeMouseEventReceiver.touches(e.x, e.y)) {   	
                 activeMouseEventReceiver.mouseExit(e);
@@ -72,6 +73,7 @@ public class ControllerUpdater {
             }
         }
 
+        //handle mouse movement within a controller
     	int i = controllers.size() - 1;
         while (i >= 0) {
         	Controller c = controllers.get(i);
@@ -93,7 +95,7 @@ public class ControllerUpdater {
             	}
             }
             i--;
-        }  
+        }
     }
     
     public void mousePressed() {
@@ -141,11 +143,47 @@ public class ControllerUpdater {
     	}
     	
     	if (activeMouseEventReceiver != null) {
-    		activeMouseEventReceiver.mouseDragged(e);
-    		for (Controller c : controllers) {
-    			if (c.touches(e.x, e.y)) {
-    				activeMouseEventReceiver.mouseDraggedOver(c);
-    			}
+    		if (activeMouseEventReceiver.isSticky()) {
+    			activeMouseEventReceiver.mouseDragged(e);
+        		for (Controller c : controllers) {
+        			if (c.touches(e.x, e.y)) {
+        				activeMouseEventReceiver.mouseDraggedOver(c);
+        			}
+        		}
+    		}
+    		else {
+    			//handle mouse movement outside a controller
+    	        if (activeMouseEventReceiver != null) {
+    	            if (!activeMouseEventReceiver.touches(e.x, e.y)) {   	
+    	                activeMouseEventReceiver.mouseExit(e);
+    	                activeMouseEventReceiver = null;
+    	            }
+    	        }
+
+    	        //handle mouse movement within a controller
+    	    	int i = controllers.size() - 1;
+    	        while (i >= 0) {
+    	        	Controller c = controllers.get(i);
+    	            if (c.touches(e.x, e.y)) {
+    	            	if (c.isEnabled()) {        		
+    		            	if (activeMouseEventReceiver != c) {
+    		            		if (activeMouseEventReceiver != null) {
+    		            			activeMouseEventReceiver.mouseExit(e);
+    		            		}
+    		            		activeMouseEventReceiver = c;
+    		            		if (!editMode) {
+    		            			c.mouseEnter(e);
+    		            			c.mousePressed(e);
+    		            		}
+    		            	}
+    		            	
+    		            	activeMouseEventReceiver.mouseDragged(e);
+    		                
+    		                break;
+    	            	}
+    	            }
+    	            i--;
+    	        }
     		}
     	}
     }
