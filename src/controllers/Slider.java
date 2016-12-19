@@ -45,10 +45,10 @@ public class Slider extends Controller {
 		}
 		else {
 			if (getWidth() >= getHeight()) {
-				setCurrentValue(minValue + quantize(PApplet.map(x, getX1(), getX2(), minValue, maxValue), minValue, tick));
+				setCurrentValue(quantize(PApplet.map(x, getX1(), getX2(), minValue, maxValue), minValue, tick));
 			}
 			else {
-				setCurrentValue(minValue + quantize(PApplet.map(y, getY1(), getY2(), minValue, maxValue), minValue, tick));
+				setCurrentValue(quantize(PApplet.map(y, getY1(), getY2(), minValue, maxValue), minValue, tick));
 			}
 		}
 		if (currValue != prevValue) {
@@ -217,6 +217,6 @@ public class Slider extends Controller {
 	    val -= min;
 	    val /= quantum;
 	    val = (int)val;
-	    return val * quantum;
+	    return min + val * quantum;
 	}
 }
