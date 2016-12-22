@@ -3,6 +3,11 @@ package extra;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
+/**
+ * 
+ * @author James Morrow [jamesmorrowdesign.com]
+ *
+ */
 public class PGraphicsWindow extends PGraphics {
 	private float x, y;
 	private PGraphics pg;

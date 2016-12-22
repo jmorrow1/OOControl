@@ -6,6 +6,12 @@ import controllers.MouseEvent;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 
+/**
+ * 
+ * @author James Morrow [jamesmorrowdesign.com]
+ *
+ * @param <T>
+ */
 public class Window<T extends Controller> extends Controller {
 	private PGraphicsWindow graphicsWindow;
 	private T controller;
@@ -28,7 +34,7 @@ public class Window<T extends Controller> extends Controller {
 		controller.draw(graphicsWindow);
 		graphicsWindow.endDraw();
 		
-		//draw graphics window to pg (the given PGraphics instance)
+		//draw graphics window to the primary PGraphics instance, pg
 		pg.rectMode(pg.CORNER);
 		pg.image(graphicsWindow.getInnerPGraphics(), graphicsWindow.getX1(), graphicsWindow.getY1(), graphicsWindow.getWidth(), graphicsWindow.getHeight());
 		

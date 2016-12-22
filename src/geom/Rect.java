@@ -92,7 +92,7 @@ public class Rect {
 		return ceny;
 	}
 	
-	public boolean touches(float x, float y) {
+	public boolean contains(float x, float y) {
 		return this.getX1() <= x && x <= this.getX2() && this.getY1() <= y && y <= this.getY2();
 	}
 	

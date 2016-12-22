@@ -103,7 +103,7 @@ public abstract class Controller<T extends Controller> {
 	 ****************************/
     
     public boolean touches(float x, float y) {
-    	return rect.touches(x, y);
+    	return rect.contains(x, y);
     }
     
     public boolean isMouseEventReceiver() {
