@@ -21,9 +21,8 @@ public class Window<T extends Controller> extends Controller {
 		super(updater, priority);
 		this.controller = controller;
 		controller.hide();
-		PApplet pa = updater.getPApplet();
-		PGraphics pg = pa.createGraphics((int)getWidth(), (int)getHeight());
-		graphicsWindow = new PGraphicsWindow(getX1(), getY1(), pg);
+//		PGraphics pg = pa.createGraphics((int)getWidth(), (int)getHeight());
+//		graphicsWindow = new PGraphicsWindow(getX1(), getY1(), pg);
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import processing.core.PApplet;
 import processing.core.PFont;
+import processing.core.PGraphics;
 
 //TODO Editor in which to create GUIs.
 //TODO Multiple active controllers? So mouseLeave isn't called when entering a nested controller?
@@ -24,44 +25,42 @@ public class ControllerUpdater {
     
     private boolean editMode;
     
-    protected PApplet pa;
+//    protected PGraphics g;
     private ControllerListener defaultListener;
     
     private MouseEvent e;
     
     private int editColor = 0xFFF2CD51;   
     
-    public ControllerUpdater(PApplet pa) {
-    	this(pa, null);
-    }
-    
-    public ControllerUpdater(PApplet pa, ControllerListener defaultListener) {
+    public ControllerUpdater() {
     	defaultFont = new PFont(PFont.findFont("font"), true);
-    	
-    	this.pa = pa;
-    	this.defaultListener = defaultListener;
-    	e = new MouseEvent(pa);
+    	e = new MouseEvent();
     }
     
-    public void draw() {
+    public ControllerUpdater(ControllerListener defaultListener) {
+    	this();
+    	this.defaultListener = defaultListener;  	
+    }
+    
+    public void draw(PGraphics g) {
     	for (int i=0; i<controllers.size(); i++) {
     		Controller c = controllers.get(i);
     		if (!c.isHidden()) {
-    			c.draw(pa.getGraphics());
+    			c.draw(g);
     		}
     	}
     	if (editMode) {
     		if (activeMouseEventReceiver != null) {
     			Controller c = activeMouseEventReceiver;
-    			pa.noStroke();
-    			pa.fill(0x77ffffff);
-    			c.rect.draw(pa.getGraphics());
+    			g.noStroke();
+    			g.fill(0x77ffffff);
+    			c.rect.draw(g);
     		}
     	}
     }
     
-    public void mouseMoved() {
-    	mouseMoved(e.set(pa.mouseX, pa.mouseY, pa.pmouseX, pa.pmouseY));
+    public void mouseMoved(PApplet pa) {
+    	mouseMoved(e.set(pa.mouseX, pa.mouseY, pa.pmouseX, pa.pmouseY, pa.mouseButton));
     }
 
     public void mouseMoved(MouseEvent e) {
@@ -98,8 +97,8 @@ public class ControllerUpdater {
         }
     }
     
-    public void mousePressed() {
-    	mousePressed(e.set(pa.mouseX, pa.mouseY, pa.pmouseX, pa.pmouseY));
+    public void mousePressed(PApplet pa) {
+    	mousePressed(e.set(pa.mouseX, pa.mouseY, pa.pmouseX, pa.pmouseY, pa.mouseButton));
     }
     
     public void mousePressed(MouseEvent e) {
@@ -113,8 +112,8 @@ public class ControllerUpdater {
     	}
     }
     
-    public void mouseReleased() {
-    	mouseReleased(e.set(pa.mouseX, pa.mouseY, pa.pmouseX, pa.pmouseY));
+    public void mouseReleased(PApplet pa) {
+    	mouseReleased(e.set(pa.mouseX, pa.mouseY, pa.pmouseX, pa.pmouseY, pa.mouseButton));
     }
     
     public void mouseReleased(MouseEvent e) {
@@ -132,8 +131,8 @@ public class ControllerUpdater {
     	}
     }
     
-    public void mouseDragged() {
-    	mouseDragged(e.set(pa.mouseX, pa.mouseY, pa.pmouseX, pa.pmouseY));
+    public void mouseDragged(PApplet pa) {
+    	mouseDragged(e.set(pa.mouseX, pa.mouseY, pa.pmouseX, pa.pmouseY, pa.mouseButton));
     }
     
     public void mouseDragged(MouseEvent e) {
@@ -320,26 +319,18 @@ public class ControllerUpdater {
     
     public void enableEditMode() {
     	editMode = true;
-    	pa.getSurface().setCursor(Cursor.DEFAULT_CURSOR);
+//    	pa.getSurface().setCursor(Cursor.DEFAULT_CURSOR);
     }
     
     public void disableEditMode() {
     	editMode = false;
-    	pa.getSurface().setCursor(Cursor.DEFAULT_CURSOR);
+//    	pa..getSurface().setCursor(Cursor.DEFAULT_CURSOR);
     }
     
     public boolean hasActiveController() {
     	return activeMouseEventReceiver != null;
     }
-    
-    public PApplet getPApplet() {
-    	return pa;
-    }
-    
-    public void setPApplet(PApplet pa) {
-    	this.pa = pa;
-    }
-    
+
     public ControllerListener getDefaultListener() {
     	return defaultListener;
     }

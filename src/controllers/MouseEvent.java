@@ -14,24 +14,42 @@ import processing.core.PApplet;
 public class MouseEvent {
 	public int x, y;
 	public int dx, dy;
-	public PApplet pa;
+	public int px, py;
+	public int mouseButton;
 	
-	public MouseEvent(PApplet pa) {
-		this.pa = pa;
+	public MouseEvent() {
+		x = 0;
+		y = 0;
+		dx = 0;
+		dy = 0;
+		px = 0;
+		py = 0;
+		mouseButton = 0;
 	}
 	
-	public void set(PApplet pa) {
+	public MouseEvent(PApplet pa) {
+		set(pa);
+	}
+	
+	public MouseEvent set(PApplet pa) {
 		this.x = pa.mouseX;
 		this.y = pa.mouseY;
 		this.dx = pa.mouseX - pa.pmouseX;
 		this.dy = pa.mouseY - pa.pmouseY;
+		this.px = pa.pmouseX;
+		this.py = pa.pmouseY;
+		this.mouseButton = pa.mouseButton;
+		return this;
 	}
 	
-	public MouseEvent set(int x, int y, int px, int py) {
+	public MouseEvent set(int x, int y, int px, int py, int mouseButton) {
 		this.x = x;
 		this.y = y;
 		this.dx = x - px;
 		this.dy = y - py;
+		this.px = px;
+		this.py = py;
+		this.mouseButton = mouseButton;
 		return this;
 	}
 	

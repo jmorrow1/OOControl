@@ -57,7 +57,7 @@ public class IntSlider extends Controller {
     
     public void mouseEnter(MouseEvent e) {
     	hovered = true;
-        e.pa.getSurface().setCursor(Cursor.N_RESIZE_CURSOR);
+//        e.pa.getSurface().setCursor(Cursor.N_RESIZE_CURSOR);
     }
     
     public void mousePressed(MouseEvent e) {
@@ -77,7 +77,7 @@ public class IntSlider extends Controller {
     
     public void mouseExit(MouseEvent e) {
     	hovered = false;
-        e.pa.getSurface().setCursor(Cursor.DEFAULT_CURSOR);
+//        e.pa.getSurface().setCursor(Cursor.DEFAULT_CURSOR);
     }
     
     public int getValue() {

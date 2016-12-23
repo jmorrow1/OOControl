@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import geom.Rect;
 import processing.core.PApplet;
+import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.data.JSONObject;
 
@@ -13,7 +14,7 @@ import processing.data.JSONObject;
  *
  * @param <T>
  */
-public abstract class Controller<T extends Controller> {
+public abstract class Controller<T extends Controller> implements PConstants {
 	public static final int MOUSE_EVENT_RECEIVER = 0, KEY_EVENT_RECEIVER = 1;
 	public final int receiverMode;
 	protected int defaultColor = 0, hoveredColor = 0;
