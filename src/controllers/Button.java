@@ -99,6 +99,10 @@ public class Button extends Controller {
 	public PFont getFont() {
 		return font;
 	}
+	
+	public void setFont(PFont font) {
+		this.font = font;
+	}
 
 	public ControllerDisplay<Button> getDisplay() {
 		return buttonDisplay;

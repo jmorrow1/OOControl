@@ -57,4 +57,17 @@ public class MouseEvent {
 		this.x += dx;
 		this.y += dy;
 	}
+	
+	private String mouseButtonName(int mouseButton) {
+		switch (mouseButton) {
+			case PApplet.LEFT : return "LEFT";
+			case PApplet.RIGHT : return "RIGHT";
+			default : return "" + mouseButton;
+		}
+	}
+
+	@Override
+	public String toString() {
+		return "MouseEvent [x=" + x + ", y=" + y + ", dx=" + dx + ", dy=" + dy + ", mouseButton=" + mouseButtonName(mouseButton) + "]";
+	}
 }
