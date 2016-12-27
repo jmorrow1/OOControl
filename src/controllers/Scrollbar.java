@@ -78,14 +78,17 @@ public class Scrollbar extends Controller implements ControllerListener<Scroller
 		if (isVerticallyOriented()) {
 			float newHeight = PApplet.min(getHeight()/pageLength * this.getHeight(), getHeight());
 			scroller.setRect(new Rect(this.getX1(), scroller.getY1(), this.getWidth(), newHeight, CORNER));
+			scroller.setMin(getY1());
+			scroller.setMax(getY2());
+			scroller.translate(0, 0);
 		}
 		else {
 			float newWidth = PApplet.min(getWidth()/getPageLength() * this.getWidth(), getWidth());
 			scroller.setRect(new Rect(scroller.getX1(), this.getY1(), newWidth, this.getHeight(), CORNER));
+			scroller.setMin(getX1());
+			scroller.setMax(getX2());
+			scroller.translate(0, 0);
 		}
-		
-		scroller.setMin(computeScrollerMin());
-		scroller.setMax(computeScrollerMax());
 	}
 	
 	public float getPageLength() {
