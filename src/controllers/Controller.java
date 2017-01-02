@@ -164,6 +164,14 @@ public abstract class Controller<T extends Controller> implements PConstants {
 			c.translate(dx, dy);
 		}
 	}
+
+	public void setCenx(float cenx) {
+		this.setCenter(cenx, this.getCeny());
+	}
+	
+	public void setCeny(float ceny) {
+		this.setCenter(this.getCenx(), ceny);
+	}
 	
 	public float getX1() {
 		return rect.getX1();

@@ -23,6 +23,7 @@ public class Scrollbar extends Controller implements ControllerListener<Scroller
 	public Scrollbar(float initialPageLength, ControllerUpdater updater, float priority) {
 		super(updater, priority);
 		scroller = new Scroller(computeScrollerMin(), computeScrollerMax(), updater, priority + 1);
+		scroller.setListener(this);
 		setPageLength(initialPageLength);
 	}
 
@@ -35,6 +36,7 @@ public class Scrollbar extends Controller implements ControllerListener<Scroller
 	
 	public void mousePressed(MouseEvent e) {
 		scroller.translate(e.x - scroller.getCenx(), e.y - scroller.getCeny());
+		sendEvent(this);
 	}
 	
 	@Override
@@ -81,6 +83,12 @@ public class Scrollbar extends Controller implements ControllerListener<Scroller
 			scroller.setMin(getY1());
 			scroller.setMax(getY2());
 			scroller.translate(0, 0);
+//			if (scroller.getHeight() == this.getHeight()) {
+//				scroller.hide();
+//			}
+//			else {
+//				scroller.show();
+//			}
 		}
 		else {
 			float newWidth = PApplet.min(getWidth()/getPageLength() * this.getWidth(), getWidth());
@@ -88,6 +96,12 @@ public class Scrollbar extends Controller implements ControllerListener<Scroller
 			scroller.setMin(getX1());
 			scroller.setMax(getX2());
 			scroller.translate(0, 0);
+//			if (scroller.getWidth() == this.getWidth()) {
+//				scroller.hide();
+//			}
+//			else {
+//				scroller.show();
+//			}
 		}
 	}
 	
