@@ -9,5 +9,5 @@ import processing.core.PGraphics;
  * @param <T>
  */
 public interface ControllerDisplay<T extends Controller> {
-	public void display(PGraphics g, T controller);
+    public void display(PGraphics g, T controller);
 }
