@@ -57,7 +57,7 @@ public class Toggle extends Controller {
 
         @Override
         public void display(PGraphics pg, Toggle t) {
-            pg.rectMode(pg.CORNER);
+            pg.rectMode(CORNER);
             pg.textFont(t.getFont());
             pg.textAlign(t.getTextAlignX(), t.getTextAlignY());
             pg.textSize(t.getFontSize());
@@ -78,7 +78,7 @@ public class Toggle extends Controller {
         public void display(PGraphics pg, Toggle t) {
             pg.noStroke();
             pg.fill(t.getColorInCurrentContext());
-            pg.rectMode(pg.CORNER);
+            pg.rectMode(CORNER);
             pg.rect(t.getX1(), t.getY1(), t.getWidth(), t.getHeight());
         }
     }

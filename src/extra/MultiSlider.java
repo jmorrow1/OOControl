@@ -50,7 +50,7 @@ public class MultiSlider extends Controller {
             g.stroke(s.getColorInCurrentContext());
             g.fill(s.getColorInCurrentContext());
             g.strokeWeight(4);
-            g.strokeCap(g.ROUND);
+            g.strokeCap(ROUND);
 
             if (s.isHorizontallyOriented()) {
                 g.line(s.getX1(), s.getCeny(), s.getX2(), s.getCeny());
@@ -66,7 +66,7 @@ public class MultiSlider extends Controller {
                         } else if (s.getCoord(i) != prevCoord) {
                             g.fill(0);
                         }
-                        g.ellipseMode(g.CENTER);
+                        g.ellipseMode(CENTER);
                         g.ellipse(coord, s.getCeny(), diam, diam);
                     } else if (mode == LINE) {
                         if (i == s.getSelectedValue()) {
@@ -93,7 +93,7 @@ public class MultiSlider extends Controller {
                         } else if (s.getCoord(i) != prevCoord) {
                             g.fill(0);
                         }
-                        g.ellipseMode(g.CENTER);
+                        g.ellipseMode(CENTER);
                         g.ellipse(s.getCenx(), coord, diam, diam);
                     } else if (mode == LINE) {
                         if (i == s.getSelectedValue()) {

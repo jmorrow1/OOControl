@@ -52,7 +52,7 @@ public class Button extends Controller {
 
         @Override
         public void display(PGraphics pg, Button b) {
-            pg.rectMode(pg.CORNER);
+            pg.rectMode(CORNER);
             pg.textFont(b.getFont());
             pg.textAlign(b.getTextAlignX(), b.getTextAlignY());
             pg.textSize(b.getFontSize());
@@ -72,7 +72,7 @@ public class Button extends Controller {
             pg.stroke(b.isHovered() ? b.getHoveredColor() : b.getDefaultColor());
             float avgSideLength = ((b.getWidth() + b.getHeight()) / 2f);
             pg.strokeWeight(avgSideLength / 15f);
-            pg.strokeCap(pg.SQUARE);
+            pg.strokeCap(SQUARE);
             pg.line(b.getCenx() - b.getWidth() / 2f, b.getCeny(), b.getCenx() + b.getWidth() / 2f, b.getCeny());
             pg.line(b.getCenx(), b.getCeny() - b.getHeight() / 2f, b.getCenx(), b.getCeny() + b.getHeight() / 2f);
         }

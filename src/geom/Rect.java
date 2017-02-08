@@ -72,7 +72,7 @@ public class Rect {
     }
 
     public void draw(PGraphics pg) {
-        pg.rectMode(pg.CENTER);
+        pg.rectMode(PApplet.CENTER);
         pg.rect(cenx, ceny, width, height);
     }
 
@@ -208,6 +208,13 @@ public class Rect {
 
         this.cenx = (x1 + x2) / 2f;
         this.ceny = (y1 + y2) / 2f;
+    }
+    
+    public void scale(float sx, float sy) {
+         cenx *= sx;
+         ceny *= sy;
+         width *= sx;
+         height *= sy;
     }
 
     @Override

@@ -34,7 +34,7 @@ public class Window<T extends Controller> extends Controller {
         graphicsWindow.endDraw();
 
         // draw graphics window to the primary PGraphics instance, pg
-        pg.rectMode(pg.CORNER);
+        pg.rectMode(CORNER);
         pg.image(graphicsWindow.getInnerPGraphics(), graphicsWindow.getX1(), graphicsWindow.getY1(),
                 graphicsWindow.getWidth(), graphicsWindow.getHeight());
 

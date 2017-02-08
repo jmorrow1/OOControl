@@ -47,8 +47,8 @@ public class IntSlider extends Controller {
     public void draw(PGraphics pg) {
         pg.fill(getColorInCurrentContext());
         pg.textFont(font);
-        pg.textAlign(pg.CENTER, pg.CENTER);
-        pg.rectMode(pg.CENTER);
+        pg.textAlign(CENTER, CENTER);
+        pg.rectMode(CENTER);
         pg.text("" + value, rect.getCenx(), rect.getCeny(), rect.getWidth(), rect.getHeight());
     }
 

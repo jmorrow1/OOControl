@@ -1,48 +1,70 @@
 package controllers;
 
-import java.awt.Cursor;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PGraphics;
 
+//TODO Bug fix translation logic
 //TODO Editor in which to create GUIs.
 //TODO Multiple active controllers? So mouseLeave isn't called when entering a nested controller?
 
 /**
  * 
- * @author James Morrow
+ * @author James Morrow [jamesmorrowdesign.com]
  *
  */
 public class ControllerUpdater {
+    //all controllers
     private ArrayList<Controller> controllers = new ArrayList<Controller>();
     private ArrayList<Float> priorities = new ArrayList<Float>();
-    private PFont defaultFont;
-
+    
+    //active controllers
     private Controller activeMouseEventReceiver;
     private Controller activeKeyEventReceiver;
-
-    private boolean editMode;
-
-    // protected PGraphics g;
+    
+    //defaults
+    private PFont defaultFont;
     private ControllerListener defaultListener;
 
+    //edit mode
+    private boolean editMode;
+    private int editColor = 0xFFF2CD51;
+    
+    //other
+    private int tx, ty;
     private MouseEvent e;
 
-    private int editColor = 0xFFF2CD51;
-
+    /**
+     * 
+     */
     public ControllerUpdater() {
         defaultFont = new PFont(PFont.findFont("font"), true);
         e = new MouseEvent();
     }
 
+    /**
+     * 
+     * @param defaultListener
+     */
     public ControllerUpdater(ControllerListener defaultListener) {
         this();
         this.defaultListener = defaultListener;
     }
+    
+    /********************
+     ***** Behavior *****
+     ********************/
 
+    /**
+     * 
+     * @param g
+     */
     public void draw(PGraphics g) {
+        g.pushMatrix();
+        g.translate(tx, ty);
         for (int i = 0; i < controllers.size(); i++) {
             Controller c = controllers.get(i);
             if (!c.isHidden()) {
@@ -57,16 +79,29 @@ public class ControllerUpdater {
                 c.rect.draw(g);
             }
         }
+        g.popMatrix();
     }
+    
+    /************************
+     ***** Input Events *****
+     ************************/
 
+    /**
+     * 
+     * @param pa
+     */
     public void mouseMoved(PApplet pa) {
-        mouseMoved(e.set(pa.mouseX, pa.mouseY, pa.pmouseX, pa.pmouseY, pa.mouseButton));
+        mouseMoved(e.set(pa.mouseX + tx, pa.mouseY + ty, pa.pmouseX + tx, pa.pmouseY + ty, pa.mouseButton));
     }
 
+    /**
+     * 
+     * @param e
+     */
     public void mouseMoved(MouseEvent e) {
         // handle mouse movement outside of a controller
         if (activeMouseEventReceiver != null) {
-            if (!activeMouseEventReceiver.touches(e.x, e.y)) {
+            if (!activeMouseEventReceiver.touches(e.x + tx, e.y + ty)) {
                 activeMouseEventReceiver.mouseExit(e);
                 activeMouseEventReceiver = null;
             }
@@ -76,7 +111,7 @@ public class ControllerUpdater {
         int i = controllers.size() - 1;
         while (i >= 0) {
             Controller c = controllers.get(i);
-            if (c.touches(e.x, e.y)) {
+            if (c.touches(e.x + tx, e.y + ty)) {
                 if (c.isEnabled()) {
                     if (activeMouseEventReceiver != c) {
                         if (activeMouseEventReceiver != null) {
@@ -97,10 +132,18 @@ public class ControllerUpdater {
         }
     }
 
+    /**
+     * 
+     * @param pa
+     */
     public void mousePressed(PApplet pa) {
-        mousePressed(e.set(pa.mouseX, pa.mouseY, pa.pmouseX, pa.pmouseY, pa.mouseButton));
+        mousePressed(e.set(pa.mouseX + tx, pa.mouseY + ty, pa.pmouseX + tx, pa.pmouseY + ty, pa.mouseButton));
     }
 
+    /**
+     * 
+     * @param e
+     */
     public void mousePressed(MouseEvent e) {
         if (editMode) {
             mousePressedEditMode(e);
@@ -112,10 +155,18 @@ public class ControllerUpdater {
         }
     }
 
+    /**
+     * 
+     * @param pa
+     */
     public void mouseReleased(PApplet pa) {
-        mouseReleased(e.set(pa.mouseX, pa.mouseY, pa.pmouseX, pa.pmouseY, pa.mouseButton));
+        mouseReleased(e.set(pa.mouseX + tx, pa.mouseY + ty, pa.pmouseX + tx, pa.pmouseY + ty, pa.mouseButton));
     }
 
+    /**
+     * 
+     * @param e
+     */
     public void mouseReleased(MouseEvent e) {
         if (editMode) {
             mouseReleasedEditMode(e);
@@ -124,17 +175,25 @@ public class ControllerUpdater {
 
         if (activeMouseEventReceiver != null) {
             activeMouseEventReceiver.mouseReleased(e);
-            if (!activeMouseEventReceiver.touches(e.x, e.y)) {
+            if (!activeMouseEventReceiver.touches(e.x + tx, e.y + ty)) {
                 activeMouseEventReceiver.mouseExit(e);
                 activeMouseEventReceiver = null;
             }
         }
     }
 
+    /**
+     * 
+     * @param pa
+     */
     public void mouseDragged(PApplet pa) {
-        mouseDragged(e.set(pa.mouseX, pa.mouseY, pa.pmouseX, pa.pmouseY, pa.mouseButton));
+        mouseDragged(e.set(pa.mouseX + tx, pa.mouseY + ty, pa.pmouseX + tx, pa.pmouseY + ty, pa.mouseButton));
     }
 
+    /**
+     * 
+     * @param e
+     */
     public void mouseDragged(MouseEvent e) {
         if (editMode) {
             mouseDraggedEditMode(e);
@@ -145,14 +204,14 @@ public class ControllerUpdater {
             if (activeMouseEventReceiver.isSticky()) {
                 activeMouseEventReceiver.mouseDragged(e);
                 for (Controller c : controllers) {
-                    if (c.touches(e.x, e.y)) {
+                    if (c.touches(e.x + tx, e.y + ty)) {
                         activeMouseEventReceiver.mouseDraggedOver(c);
                     }
                 }
             } else {
                 // handle mouse movement outside a controller
                 if (activeMouseEventReceiver != null) {
-                    if (!activeMouseEventReceiver.touches(e.x, e.y)) {
+                    if (!activeMouseEventReceiver.touches(e.x + tx, e.y + ty)) {
                         activeMouseEventReceiver.mouseExit(e);
                         activeMouseEventReceiver = null;
                     }
@@ -162,7 +221,7 @@ public class ControllerUpdater {
                 int i = controllers.size() - 1;
                 while (i >= 0) {
                     Controller c = controllers.get(i);
-                    if (c.touches(e.x, e.y)) {
+                    if (c.touches(e.x + tx, e.y + ty)) {
                         if (c.isEnabled()) {
                             if (activeMouseEventReceiver != c) {
                                 if (activeMouseEventReceiver != null) {
@@ -186,99 +245,144 @@ public class ControllerUpdater {
         }
     }
 
+    /**
+     * 
+     * @param e
+     */
     public void keyPressed(KeyEvent e) {
 
     }
 
+    /***********************************
+     ***** Input Events, Edit Mode *****
+     ***********************************/
+    
+    /**
+     * 
+     * @param e
+     */
     public void mouseMovedEditMode(MouseEvent e) {
         for (Controller c : controllers) {
-            if (c.touches(e.x, e.y)) {
+            if (c.touches(e.x + tx, e.y + ty)) {
 
             }
         }
     }
 
+    /**
+     * 
+     * @param e
+     */
     public void mousePressedEditMode(MouseEvent e) {
         for (Controller c : controllers) {
-            if (c.touches(e.x, e.y)) {
+            if (c.touches(e.x + tx, e.y + ty)) {
 
             }
         }
     }
 
+    /**
+     * 
+     * @param e
+     */
     public void mouseReleasedEditMode(MouseEvent e) {
 
     }
 
+    /**
+     * 
+     * @param e
+     */
     public void mouseDraggedEditMode(MouseEvent e) {
         for (Controller c : controllers) {
-            if (c.touches(e.x, e.y)) {
+            if (c.touches(e.x + tx, e.y + ty)) {
 
             }
         }
     }
+    
+    /************************
+     ***** Other Events *****
+     ************************/
 
+    /**
+     * 
+     */
     public void hideAll() {
         for (Controller c : controllers) {
             c.hide();
         }
     }
-
+    
+    /**
+     * 
+     */
     public void freezeAll() {
         for (Controller c : controllers) {
             c.freeze();
         }
     }
 
+    /**
+     * 
+     */
     public void showAll() {
         for (Controller c : controllers) {
             c.show();
         }
     }
 
+    /**
+     * 
+     */
     public void unfreezeAll() {
         for (Controller c : controllers) {
             c.unfreeze();
         }
     }
 
-    public void addController(Controller e, float priorityValue) {
-        for (Controller d : controllers) {
-            if (d == e)
-                return;
-        }
-
-        for (int i = 0; i < controllers.size(); i++) {
-            if (priorities.get(i) > priorityValue) {
-                controllers.add(i, e);
-                priorities.add(i, priorityValue);
-                return;
-            }
-        }
-
+    /**
+     * 
+     * @param c
+     */
+    public void addController(Controller c) {
+        int insertionPoint = Collections.binarySearch(controllers, c, Controller.comparator);
+        controllers.add(insertionPoint, c);
         if (defaultListener != null) {
-            e.setListener(defaultListener);
+            c.setListener(defaultListener);
         }
+    }   
 
-        controllers.add(e);
-        priorities.add(priorityValue);
-    }
-
-    public void removeController(Controller e) {
-        int i = controllers.indexOf(e);
+    /**
+     * 
+     * @param c
+     */
+    public void removeController(Controller c) {
+        int i = controllers.indexOf(c);
         if (i != -1) {
             controllers.remove(i);
             priorities.remove(i);
         }
-        if (e == this.activeMouseEventReceiver) {
+        if (c == this.activeMouseEventReceiver) {
             this.activeMouseEventReceiver = null;
         }
-        if (e == this.activeKeyEventReceiver) {
+        if (c == this.activeKeyEventReceiver) {
             this.activeKeyEventReceiver = null;
         }
     }
+    
+    /**
+     * 
+     * @param c
+     */
+    protected void reinsertController(Controller c) {
+        controllers.remove(c);
+        int insertionPoint = Collections.binarySearch(controllers, c, Controller.comparator);
+        controllers.add(insertionPoint, c);
+    }
 
-    public float getControllerPriority(Controller c) {
+    @Deprecated
+    public float getDrawGroup(Controller c) {
         int i = controllers.indexOf(c);
         if (i != -1) {
             return priorities.get(i);
@@ -287,57 +391,107 @@ public class ControllerUpdater {
         }
     }
 
-    public void setControllerPriority(Controller c, float priority) {
-        int i = controllers.indexOf(c);
-        if (i != -1) {
-            controllers.remove(i);
-            priorities.remove(i);
-            addController(c, priority);
-        }
+    @Deprecated
+    public void setDrawGroup(Controller c, float drawGroup) {
+        c.setDrawGroup(drawGroup);
     }
 
+    /**
+     * 
+     */
     public void clearControllers() {
         controllers.clear();
     }
+    
+    /**
+     * 
+     * @param dx
+     * @param dy
+     */
+    public void translate(int dx, int dy) {
+        tx += dx;
+        ty += dy;
+    }
+    
+    /*******************************
+     ***** Getters and Setters *****
+     *******************************/
 
+    /**
+     * 
+     * @param i
+     * @return
+     */
     public Controller getController(int i) {
         return controllers.get(i);
     }
 
+    /**
+     * 
+     * @param c
+     * @return
+     */
     public boolean containsController(Controller c) {
         return controllers.contains(c);
     }
 
+    /**
+     * 
+     * @return
+     */
     public int controllerCount() {
         return controllers.size();
     }
 
+    /**
+     * 
+     * @return
+     */
     public PFont getDefaultFont() {
         return defaultFont;
     }
 
+    /**
+     * 
+     */
     public void enableEditMode() {
         editMode = true;
         // pa.getSurface().setCursor(Cursor.DEFAULT_CURSOR);
     }
 
+    /**
+     * 
+     */
     public void disableEditMode() {
         editMode = false;
         // pa..getSurface().setCursor(Cursor.DEFAULT_CURSOR);
     }
 
+    /**
+     * 
+     * @return
+     */
     public boolean hasActiveController() {
         return activeMouseEventReceiver != null;
     }
 
+    /**
+     * 
+     * @return
+     */
     public ControllerListener getDefaultListener() {
         return defaultListener;
     }
 
+    /**
+     * 
+     * @param defaultListener
+     */
     public void setDefaultListener(ControllerListener defaultListener) {
         this.defaultListener = defaultListener;
     }
 
+    @Override
     public String toString() {
         String s = "[";
         for (int i = 0; i < controllers.size(); i++) {

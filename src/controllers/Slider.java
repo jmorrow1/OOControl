@@ -178,6 +178,10 @@ public class Slider extends Controller {
         this.minValue = minValue;
         this.maxValue = maxValue;
     }
+    
+    public float getNormalValue() {
+        return PApplet.map(currValue, minValue, maxValue, 0, 1);
+    }
 
     public float getValue() {
         return currValue;
